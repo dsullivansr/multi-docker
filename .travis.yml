@@ -7,3 +7,19 @@ before_install:
 
 script:
     - docker run -e CI=true dsullivansr/react-test npm run test
+
+after_success:
+    # Build multi container docker images.
+    - docker build -t dsullivansr/multi-client ./client
+    - docker build -t dsullivansr/multi-nginx ./nginx
+    - docker build -t dsullivansr/multi-server ./server
+    - docker build -t dsullivansr/multi-worker ./worker
+
+    # Log into docker hub.
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    
+    # Push docker images to docker hub.
+    - docker push dsullivansr/multi-client
+    - docker push dsullivansr/multi-nginx
+    - docker push dsullivansr/multi-server
+    - docker push dsullivansr/multi-worker
