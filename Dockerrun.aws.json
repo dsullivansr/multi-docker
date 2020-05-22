@@ -18,7 +18,7 @@
         },
         {
             "name": "worker",
-            "image": "dsullivansr/multi-server",
+            "image": "dsullivansr/multi-worker",
             "hostname": "worker",
             "essential": false,
             "memory": 128
